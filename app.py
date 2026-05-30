@@ -31,6 +31,11 @@ GITHUB_URL = "https://github.com/krimler/workshop-tracker"
 APP_URL = "https://workshop-gpt-madhava.streamlit.app/"  # live Streamlit app
 SHARE_TEXT = quote("Workshop GPT: every ML/CS workshop with its deadline, in one place. Free, updated daily.")
 
+# Visitor analytics (GoatCounter — free, cookie-less). Set to your subdomain
+# (e.g. "workshop-gpt" for workshop-gpt.goatcounter.com) or the GOATCOUNTER_CODE
+# env/secret to enable. Empty = disabled.
+GOATCOUNTER_CODE = ""
+
 CHAT_SESSION_LIMIT = 15      # messages per browser session
 CHAT_DAILY_LIMIT = 500       # total LLM chat calls/day across all users (free-tier guard)
 CHAT_INPUT_MAXLEN = 500
@@ -707,6 +712,23 @@ def metric(label: str, value) -> str:
     )
 
 
+def render_analytics() -> None:
+    """Crude visitor count via GoatCounter (cookie-less). Fires once per session,
+    counts the real browser (runs client-side in a 0-height iframe). No-op if unset."""
+    code = (os.environ.get("GOATCOUNTER_CODE") or GOATCOUNTER_CODE).strip()
+    if not code or st.session_state.get("_visit_counted"):
+        return
+    st.session_state["_visit_counted"] = True
+    components.html(
+        f"""<script>
+        window.goatcounter = {{ path: '/app', title: 'Workshop GPT app' }};
+        </script>
+        <script data-goatcounter="https://{code}.goatcounter.com/count"
+                async src="//gc.zgo.at/count.js"></script>""",
+        height=0,
+    )
+
+
 def render_transparency(df: pd.DataFrame) -> None:
     """A thin, honest one-liner about how complete the data actually is."""
     real = df[df["record_type"] == "workshop"]
@@ -1287,6 +1309,7 @@ def main() -> None:
         st.warning("No workshop candidates found.")
         return
 
+    render_analytics()
     render_social()
     render_header(data, df)
     render_transparency(df)
