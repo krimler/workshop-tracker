@@ -212,6 +212,14 @@ div[data-testid="stHorizontalBlock"] { overflow: visible !important; }
 }
 .stat-box span { font-size: 0.62rem; color: #6B7280; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; }
 
+/* thin, full-width honesty strip (horizontal, minimal height) */
+.transparency {
+    font-size: 0.8rem; color: #6B7280; line-height: 1.35;
+    background: rgba(124,58,237,0.05); border: 1px solid #EDE9FE; border-radius: 9px;
+    padding: 0.35rem 0.8rem; margin: 0.1rem 0 0.5rem;
+}
+.transparency b { color: #4C1D95; }
+
 .about-band {
     background: #FFFFFF; border: 1px solid #EDE9FE; border-radius: 16px;
     padding: 1.05rem 1.2rem; margin: 0.95rem 0 1rem;
@@ -699,6 +707,24 @@ def metric(label: str, value) -> str:
     )
 
 
+def render_transparency(df: pd.DataFrame) -> None:
+    """A thin, honest one-liner about how complete the data actually is."""
+    real = df[df["record_type"] == "workshop"]
+    total = len(real)
+    if not total:
+        return
+    confirmed = int(real["deadline_source"].isin(["openreview", "official_page", "llm"]).sum())
+    located = int((real["location"].astype(str).str.strip() != "").sum())
+    pct = round(100 * confirmed / total)
+    st.markdown(
+        f'<div class="transparency"><b>Transparency:</b> '
+        f'{confirmed}/{total} workshops ({pct}%) have a confirmed submission deadline — '
+        f'the rest show the parent conference’s deadline as a placeholder (marked '
+        f'“workshop TBD”). {located} have a location. Rebuilt daily; more fill in each day.</div>',
+        unsafe_allow_html=True,
+    )
+
+
 def area_pills(areas: list[str]) -> str:
     out = []
     for area in areas or []:
@@ -796,8 +822,20 @@ def render_header(data: dict, df: pd.DataFrame) -> None:
             'conference, the deadline, and the location. The data is rebuilt daily from public '
             'sources. You can browse by area and venue below, or ask the assistant to find the '
             'ones that fit what you work on.'
-            '<div class="about-links">To add a venue or send feedback, email '
-            '<strong>yavan [at] outlook [dot] com</strong>.</div>'
+            '<br><br>'
+            '<strong>Honest about where it stands:</strong> this is an early, one-person project. '
+            'Coverage is not complete, many workshops still show the parent conference’s deadline '
+            'until their own is confirmed, and the deadline/theme/chat features run on free LLM '
+            'tiers that rate-limit, so the data fills in gradually. Always verify a deadline on the '
+            'linked source before submitting.'
+            '<br><br>'
+            '<strong>Want to help?</strong> Any way is welcome — '
+            '<a class="open" href="https://github.com/krimler/workshop-tracker" target="_blank" rel="noopener">code on GitHub</a>, '
+            'LLM credits (Claude tokens or Groq/OpenRouter quota) so more deadlines fill in each '
+            'day, a correction, a missing venue, or just an email to say it’s useful. Even a hello '
+            'helps me keep this going.'
+            '<div class="about-links">Email <strong>yavan [at] outlook [dot] com</strong> — '
+            'to add a venue, contribute, support, or just say hi.</div>'
             '</div>',
             unsafe_allow_html=True,
         )
@@ -1251,6 +1289,7 @@ def main() -> None:
 
     render_social()
     render_header(data, df)
+    render_transparency(df)
 
     # The assistant is the hero: full width, right under the header.
     render_chat(df)
