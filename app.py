@@ -28,7 +28,7 @@ CONFERENCE_DASHBOARD_URL = "https://paper-tracker-madhava.streamlit.app/"
 AUTHOR_NAME = "Madhava Gaikwad"
 AUTHOR_LINKEDIN = "https://www.linkedin.com/in/alignops/"
 GITHUB_URL = "https://github.com/krimler/workshop-tracker"
-APP_URL = "https://workshop-gpt-madhava.streamlit.app/"  # update to the deployed URL
+APP_URL = "https://workshop-gpt-madhava.streamlit.app/"  # live Streamlit app
 SHARE_TEXT = quote("Workshop GPT: every ML/CS workshop with its deadline, in one place. Free, updated daily.")
 
 CHAT_SESSION_LIMIT = 15      # messages per browser session
