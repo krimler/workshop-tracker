@@ -1,0 +1,105 @@
+{
+  "areas": {
+    "biomedical": [
+      {"name": "AMIA", "domains": ["amia.org"]},
+      {"name": "ISMB", "domains": ["iscb.org"]},
+      {"name": "RECOMB", "domains": ["recomb.org"]},
+      {"name": "MICCAI", "domains": ["miccai.org"]},
+      {"name": "PSB", "domains": ["psb.stanford.edu"]}
+    ],
+    "ai_ml": [
+      {"name": "NeurIPS", "domains": ["neurips.cc"]},
+      {"name": "ICML", "domains": ["icml.cc"]},
+      {"name": "ICLR", "domains": ["iclr.cc"]},
+      {"name": "RLC", "domains": ["rl-conference.cc"]},
+      {"name": "AAAI", "domains": ["aaai.org"]},
+      {"name": "IJCAI", "domains": ["ijcai.org"]},
+      {"name": "COLM", "domains": ["colmweb.org"]},
+      {"name": "ACL", "domains": ["aclweb.org"]},
+      {"name": "EMNLP", "domains": ["aclweb.org"]},
+      {"name": "CVPR", "domains": ["thecvf.com", "cvpr.thecvf.com"]},
+      {"name": "MLSys", "domains": ["mlsys.org"]}
+    ],
+    "software_engineering": [
+      {"name": "ICSE", "domains": ["conf.researchr.org"]},
+      {"name": "FSE", "domains": ["conf.researchr.org"]},
+      {"name": "ASE", "domains": ["conf.researchr.org"]},
+      {"name": "ISSTA", "domains": ["conf.researchr.org"]},
+      {"name": "RE", "domains": ["conf.researchr.org"]},
+      {"name": "MSR", "domains": ["conf.researchr.org"]},
+      {"name": "SANER", "domains": ["conf.researchr.org"]},
+      {"name": "ESEC/FSE", "domains": ["conf.researchr.org"]},
+      {"name": "MODELS", "domains": ["conf.researchr.org"]},
+      {"name": "ICSME", "domains": ["conf.researchr.org"]},
+      {"name": "ICPC", "domains": ["conf.researchr.org"]},
+      {"name": "ICST", "domains": ["conf.researchr.org"]}
+    ],
+    "security": [
+      {"name": "IEEE S&P", "domains": ["ieee-security.org", "computer.org"]},
+      {"name": "USENIX Security", "domains": ["usenix.org"]},
+      {"name": "ACM CCS", "domains": ["sigsac.org", "acm.org"]},
+      {"name": "NDSS", "domains": ["ndss-symposium.org"]},
+      {"name": "ACSAC", "domains": ["acsac.org"]},
+      {"name": "PETS", "domains": ["petsymposium.org"]},
+      {"name": "SOUPS", "domains": ["usenix.org"]}
+    ],
+    "distributed_systems": [
+      {"name": "SOSP", "domains": ["sigops.org", "acm.org"]},
+      {"name": "OSDI", "domains": ["usenix.org"]},
+      {"name": "ICDCS", "domains": ["computer.org"]},
+      {"name": "Middleware", "domains": ["middleware-conf.github.io"]},
+      {"name": "DSN", "domains": ["dsn.org", "dependablecomputing.org"]},
+      {"name": "HPDC", "domains": ["hpdc.org", "acm.org"]}
+    ],
+    "networking": [
+      {"name": "SIGCOMM", "domains": ["sigcomm.org", "acm.org"]},
+      {"name": "NSDI", "domains": ["usenix.org"]},
+      {"name": "INFOCOM", "domains": ["ieee-infocom.org"]},
+      {"name": "IMC", "domains": ["conferences.sigcomm.org"]},
+      {"name": "CoNEXT", "domains": ["conferences2.sigcomm.org"]},
+      {"name": "MobiCom", "domains": ["sigmobile.org"]}
+    ],
+    "systems": [
+      {"name": "ASPLOS", "domains": ["asplos-conference.org"]},
+      {"name": "EuroSys", "domains": ["eurosys.org"]},
+      {"name": "USENIX ATC", "domains": ["usenix.org"]},
+      {"name": "FAST", "domains": ["usenix.org"]},
+      {"name": "HotOS", "domains": ["sigops.org", "usenix.org"]},
+      {"name": "SC", "domains": ["supercomputing.org"]},
+      {"name": "PPoPP", "domains": ["ppopp.org", "acm.org"]},
+      {"name": "HPCA", "domains": ["hpca-conf.org", "computer.org"]},
+      {"name": "ISCA", "domains": ["iscaconf.org", "acm.org", "computer.org"]},
+      {"name": "MICRO", "domains": ["microarch.org", "acm.org", "computer.org"]},
+      {"name": "CGO", "domains": ["conf.researchr.org"]}
+    ],
+    "theory": [
+      {"name": "STOC", "domains": ["acm-stoc.org", "sigact.org"]},
+      {"name": "FOCS", "domains": ["focs.computer.org", "computer.org"]},
+      {"name": "SODA", "domains": ["siam.org"]},
+      {"name": "ITCS", "domains": ["itcs-conf.org"]},
+      {"name": "ICALP", "domains": ["eacsl.org", "icalp.org"]},
+      {"name": "ESA", "domains": ["esa-symposium.org"]},
+      {"name": "SoCG", "domains": ["socg.org"]},
+      {"name": "CCC", "domains": ["computationalcomplexity.org"]}
+    ],
+    "databases": [
+      {"name": "SIGMOD", "domains": ["sigmod.org", "acm.org"]},
+      {"name": "VLDB", "domains": ["vldb.org"]},
+      {"name": "PODS", "domains": ["sigmod.org", "acm.org"]},
+      {"name": "ICDE", "domains": ["ieee-icde.org", "computer.org"]},
+      {"name": "EDBT", "domains": ["edbt.org"]},
+      {"name": "CIDR", "domains": ["cidrdb.org"]},
+      {"name": "CIKM", "domains": ["cikmconference.org", "acm.org"]}
+    ],
+    "programming_languages": [
+      {"name": "PLDI", "domains": ["pldi.org", "sigplan.org"]},
+      {"name": "POPL", "domains": ["popl.org", "sigplan.org"]},
+      {"name": "OOPSLA", "domains": ["splashcon.org", "sigplan.org"]},
+      {"name": "SPLASH", "domains": ["splashcon.org", "sigplan.org"]},
+      {"name": "ICFP", "domains": ["icfpconference.org", "sigplan.org"]},
+      {"name": "ECOOP", "domains": ["2026.ecoop.org", "ecoop.org"]},
+      {"name": "CC", "domains": ["conf.researchr.org"]},
+      {"name": "VMCAI", "domains": ["conf.researchr.org"]}
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+# Workshop GPT
+
+> A daily-updated index of academic ML/CS workshops with their submission deadlines and locations, each mapped to its parent conference. Includes an AI assistant for finding workshops by topic, venue, deadline, or place.
+
+Workshop GPT exists because there is no single list of academic workshops: each workshop runs its own call for papers, with its own deadline, on its own page (OpenReview, a GitHub site, or a personal homepage). This project aggregates them from public sources and rebuilds the data daily.
+
+Each workshop record includes: title, parent conference (e.g. NeurIPS, ICML, ICLR, COLM, CVPR, ACL), year, research area(s), sub-theme, submission deadline, workshop date, location, and source links. A deadline may be the workshop's own (sourced from its page or OpenReview) or, as a clearly-labeled fallback, the parent conference's deadline.
+
+## Resources
+- [Live app](https://workshop-gpt-madhava.streamlit.app/): interactive tracker and AI assistant
+- [Open data (JSON)](https://krimler.github.io/workshop-tracker/workshops.json): all workshop records
+- [Source on GitHub](https://github.com/krimler/workshop-tracker): fetcher and app code
+
+## Coverage
+Nine research areas: AI/ML, theory, security, systems, networking, databases, software engineering, distributed systems, biomedical. Current and next conference year.
+
+## Contact
+To add a venue or send feedback, email yavan [at] outlook [dot] com. Built by Madhava Gaikwad (https://www.linkedin.com/in/alignops/).

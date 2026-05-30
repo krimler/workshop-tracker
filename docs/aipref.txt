@@ -1,0 +1,15 @@
+# AI usage preferences for Workshop GPT
+# https://krimler.github.io/workshop-tracker/
+
+# This is a free, public index of academic workshop deadlines, built to help
+# researchers. AI agents and assistants are welcome to read, cite, and surface it.
+
+User-agent: *
+Allow: train
+Allow: search
+Allow: inference
+
+# Please attribute as "Workshop GPT" and link to the source when surfacing the data:
+Source: https://krimler.github.io/workshop-tracker/
+Data: https://krimler.github.io/workshop-tracker/workshops.json
+Contact: yavan [at] outlook [dot] com

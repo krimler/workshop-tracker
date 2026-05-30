@@ -1,0 +1,75 @@
+{
+  "description": "Broad venue coverage targets. These are not proof that a workshop exists; they make the dashboard watch major venues year-over-year.",
+  "areas": {
+    "ai_ml": [
+      "NeurIPS", "ICML", "ICLR", "RLC", "AAAI", "IJCAI", "COLM", "ACL", "EMNLP", "NAACL",
+      "EACL", "AACL", "COLING", "CVPR", "ICCV", "ECCV", "WACV", "BMVC", "KDD", "WWW",
+      "SIGIR", "RecSys", "UAI", "AISTATS", "CoRL", "RSS", "ICRA", "IROS", "AAMAS", "KR",
+      "ECAI", "ACMMM", "ICASSP", "INTERSPEECH", "ISCA", "MLSys", "LoG", "L4DC", "ACML", "PAKDD",
+      "ECML PKDD", "ICDAR", "ICIP", "ICAPS", "CP", "WSDM", "CIKM", "TACL", "ARR", "ALENEX"
+    ],
+    "biomedical": [
+      "AMIA", "ISMB", "RECOMB", "MICCAI", "PSB", "BCB", "BioNLP", "BioASQ", "MedInfo", "MIDL",
+      "MLHC", "CHIL", "AIME", "CBMS", "BIBM", "ICHI", "EMBC", "ISBI", "SPIE Medical Imaging", "IPMI",
+      "CAI", "CARS", "CompBioMed", "ECCB", "GIW", "WABI", "ACM-BCB", "IEEE BHI", "SAC Bioinformatics", "DTMBIO",
+      "BioKDD", "MLCB", "DILS", "ICIBM", "TransMed", "PMLR ML4H", "ClinicalNLP", "MedNLP", "HealthNLP", "NLP4Health",
+      "MICCAI BrainLes", "MICCAI STACOM", "MICCAI CLIP", "MICCAI DALI", "MICCAI FAIR", "MICCAI PRIME", "ISBI MLMI", "AMIA Informatics Summit", "OHBM", "ASHG"
+    ],
+    "software_engineering": [
+      "ICSE", "FSE", "ESEC/FSE", "ASE", "ISSTA", "RE", "MSR", "SANER", "MODELS", "ICSME",
+      "ICPC", "ICST", "ESEM", "ICSA", "ICSR", "SPLC", "VaMoS", "SLE", "SCAM", "ICWE",
+      "ICWS", "ICSOC", "ICPE", "ICSE-SEIP", "ICSE-NIER", "ICSE-SEIS", "ICSE-Companion", "FSE-Industry", "ASE-Industry", "ICST-Workshops",
+      "AST", "ICSE-NIER", "MSR Mining Challenge", "PROMISE", "MOBILESoft", "CHASE", "SEAMS", "FormaliSE", "GREENS", "BotSE",
+      "A-Mobile", "DeepTest", "Mutation", "SBST", "IWBOSE", "VISSOFT", "ICSME ERA", "SANER ERA", "CASCON", "XP"
+    ],
+    "security": [
+      "IEEE S&P", "USENIX Security", "ACM CCS", "NDSS", "ACSAC", "PETS", "SOUPS", "RAID", "ESORICS", "EuroS&P",
+      "AsiaCCS", "CSF", "FC", "TCC", "CRYPTO", "EUROCRYPT", "ASIACRYPT", "PKC", "CHES", "DSN",
+      "DIMVA", "WiSec", "CODASPY", "SACMAT", "WPES", "CCS Workshops", "Black Hat", "DEF CON", "USENIX WOOT", "USENIX CSET",
+      "USENIX FOCI", "ENIGMA", "NDSS Workshops", "EuroUSEC", "USEC", "HotSec", "SecDev", "SafeThings", "DLS", "Botconf",
+      "ACSAC Workshops", "CANS", "ISC", "ICISC", "ACNS", "ProvSec", "ARES", "FPS", "IFIP SEC", "NSS"
+    ],
+    "distributed_systems": [
+      "SOSP", "OSDI", "NSDI", "EuroSys", "Middleware", "ICDCS", "DSN", "SRDS", "PODC", "DISC",
+      "OPODIS", "PaPoC", "HotCloud", "HotStorage", "HotEdge", "HotNets", "SoCC", "HPDC", "CCGrid", "Cluster",
+      "IPDPS", "SC", "ICS", "PPoPP", "SPAA", "SIGMETRICS", "MASCOTS", "IC2E", "CLOUD", "CLOUDCOM",
+      "EdgeSys", "SEC", "UCC", "eScience", "ICAC", "ICPE", "DEBS", "ICWS", "ICSOC", "SRDS Workshops",
+      "PDSW", "ROSS", "WSC", "HiPC", "HPCC", "ICPADS", "ICPP", "Middleware Workshops", "SYSTOR", "NetCloud"
+    ],
+    "networking": [
+      "SIGCOMM", "NSDI", "INFOCOM", "IMC", "CoNEXT", "MobiCom", "MobiSys", "SenSys", "IPSN", "WiSec",
+      "HotNets", "ANRW", "PAM", "TMA", "NOMS", "IM", "ICC", "GLOBECOM", "ICNP", "LCN",
+      "WCNC", "WoWMoM", "SECON", "MobiHoc", "WiOpt", "NetSoft", "NFV-SDN", "LANMAN", "DySPAN", "MSWiM",
+      "QSHINE", "CNSM", "IFIP Networking", "WONS", "CHANTS", "AllThingsCellular", "HotMiddlebox", "APNet", "AINTEC", "CoNEXT Workshops",
+      "SIGCOMM Workshops", "MobiCom Workshops", "MobiSys Workshops", "NSDI Workshops", "ICCCN", "ICC Workshops", "GLOBECOM Workshops", "ISCC", "CCNC", "NetAI"
+    ],
+    "systems": [
+      "ASPLOS", "SOSP", "OSDI", "EuroSys", "USENIX ATC", "FAST", "HotOS", "ISCA", "MICRO", "HPCA",
+      "PPoPP", "SC", "ICS", "CGO", "PACT", "LCTES", "VEE", "CC", "DATE", "DAC",
+      "USENIX LISA", "SYSTOR", "HotStorage", "HotCloud", "HotEdge", "HotCarbon", "HotPower", "HotMobile", "MobiSys", "SenSys",
+      "RTSS", "RTAS", "EMSOFT", "CASES", "CODES+ISSS", "SIGMETRICS", "ICPE", "MASCOTS", "SoCC", "Middleware",
+      "CIDR", "VLDB", "SIGMOD", "DEBS", "SOSP Workshops", "OSDI Workshops", "ATC Workshops", "EuroSys Workshops", "ASPLOS Workshops", "MLSys"
+    ],
+    "theory": [
+      "STOC", "FOCS", "SODA", "ITCS", "ICALP", "ESA", "SoCG", "CCC", "PODC", "DISC",
+      "SPAA", "APPROX/RANDOM", "WADS", "SWAT", "MFCS", "ICALP Track A", "ICALP Track B", "LICS", "CSL", "FSTTCS",
+      "ISAAC", "LATIN", "COCOON", "WG", "IPEC", "SEA", "ALENEX", "ANALCO", "SAGT", "WINE",
+      "EC", "TARK", "RTA", "CONCUR", "ICALP Workshops", "STACS", "MFCS Workshops", "CSR", "CiE", "DCFS",
+      "DLT", "AFL", "MFCS", "QIP", "TQC", "ICALP Track C", "SAT", "CP", "AAMAS", "ICALP Satellite"
+    ],
+    "databases": [
+      "SIGMOD", "VLDB", "PODS", "ICDE", "EDBT", "CIDR", "CIKM", "KDD", "WWW", "WSDM",
+      "SIGIR", "RecSys", "SSDBM", "DASFAA", "ADBIS", "DEXA", "BDA", "BigData", "IEEE BigData", "EDBT Workshops",
+      "SIGMOD Workshops", "VLDB Workshops", "ICDE Workshops", "DataSys", "DaMoN", "DEEM", "GRADES-NDA", "HILDA", "DBTest", "DOLAP",
+      "MUD", "CloudDB", "TPCTC", "SSTD", "GIScience", "ACM SIGSPATIAL", "MDM", "MobiDE", "WebDB", "AMW",
+      "ICDT", "KRDB", "SWAT4HCLS", "Semantics", "ISWC", "ESWC", "VLDB PhD Workshop", "SIGMOD DEI", "DBML", "DataPerf"
+    ],
+    "programming_languages": [
+      "PLDI", "POPL", "OOPSLA", "SPLASH", "ICFP", "ECOOP", "CC", "VMCAI", "ESOP", "TACAS",
+      "CAV", "LICS", "SAS", "SLE", "GPCE", "PEPM", "PADL", "Haskell Symposium", "ML Family Workshop", "Scheme Workshop",
+      "Scala Symposium", "RustConf", "TyDe", "HOPE", "ICFP Workshops", "PLMW", "Onward!", "REBLS", "LIVE", "AGERE",
+      "FTfJP", "SOAP", "ARRAY", "MoreVMs", "VEE", "CGO", "LCTES", "ISMM", "PPoPP", "PACT",
+      "WALA", "DLS", "PX", "PriSC", "PLATEAU", "PLDI Workshops", "POPL Workshops", "OOPSLA Workshops", "ECOOP Workshops", "Formal Methods"
+    ]
+  }
+}

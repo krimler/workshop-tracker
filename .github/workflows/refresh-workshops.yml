@@ -1,0 +1,54 @@
+name: Refresh workshop radar
+
+on:
+  schedule:
+    - cron: '17 6 * * *'  # daily ~06:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    # Bounded incremental refresh: discovery runs in full every day, but the slow
+    # per-record enrichment is capped per run and carried forward, so a daily run
+    # finishes in minutes and drains/re-validates the backlog over several days.
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run fetcher
+        # LLM keys are OPTIONAL repo secrets. If unset, the LLM pass is skipped and
+        # the fetcher falls back to regex + conference deadline (still works fine).
+        # Add free keys under Settings > Secrets and variables > Actions to enable it.
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: >-
+          python fetcher/fetch.py
+          --enrich-openreview-limit 60
+          --enrich-delay-seconds 6
+          --enrich-official-limit 120
+          --enrich-official-delay-seconds 1
+          --enrich-llm-limit 120
+
+      - name: Commit refreshed data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/workshops.json docs/workshops.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "data: refresh workshop radar"
+            git push
+          fi

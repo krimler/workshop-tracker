@@ -1,0 +1,22 @@
+{
+  "description": "Conference deadline feeds used first to derive workshop venue targets. Existing workshop seeds and venue_watchlist entries remain additive fallbacks.",
+  "local_conference_json": [
+    "../paper_tracker/data/conferences.json",
+    "../paper-tracker/data/conferences.json",
+    "/Users/madhavagaikwad/Documents/New project/paper-tracker/data/conferences.json"
+  ],
+  "fetch_upstream_sources": true,
+  "upstream_git_sources": {
+    "ccfddl": "https://github.com/ccfddl/ccf-deadlines.git",
+    "ai_deadlines": "https://github.com/paperswithcode/ai-deadlines.git",
+    "sec_deadlines": "https://github.com/sec-deadlines/sec-deadlines.github.io.git",
+    "tcs_conf": "https://github.com/tcs-conf/tcs-conf.github.io.git"
+  },
+  "upstream_sources_represented_by_paper_tracker": [
+    "https://paper-tracker-madhava.streamlit.app/",
+    "https://github.com/ccfddl/ccf-deadlines",
+    "https://github.com/paperswithcode/ai-deadlines",
+    "https://github.com/sec-deadlines/sec-deadlines.github.io",
+    "https://github.com/tcs-conf/tcs-conf.github.io"
+  ]
+}
