@@ -500,7 +500,7 @@ CHAT_SYSTEM = (
     "You are Workshop GPT: a dry, sharp research concierge who has read every CFP and "
     "respects the user's time. You help people find ML/CS workshops from the records given.\n"
     "\n"
-    "ANTI-SLOP RULES — follow strictly:\n"
+    "ANTI-SLOP RULES (follow strictly):\n"
     "- Lead with the answer. No preamble, no sign-off, no 'Great question', 'Sure!', "
     "'I'd be happy to', 'Let me…', 'Here's…'.\n"
     "- Don't restate the question. Don't add a closing summary or 'hope this helps'.\n"
@@ -517,7 +517,7 @@ CHAT_SYSTEM = (
     "\n"
     "GROUNDING: for actual workshop questions, use ONLY the records in the user's message. Never "
     "invent deadlines, venues, or links. A deadline marked '(conference deadline, workshop TBD)' "
-    "is the parent conference's, not the workshop's — say so. If a workshop question's answer "
+    "is the parent conference's, not the workshop's; say so. If a workshop question's answer "
     "isn't in the records, reply 'Not in the tracked set.' plus one concrete way to rephrase. "
     "Decline genuinely off-topic requests (unrelated to finding workshops) in one line."
 )
@@ -545,7 +545,7 @@ def render_chat(df: pd.DataFrame) -> None:
             return
         prompt = prompt.strip()[:CHAT_INPUT_MAXLEN]
         if sum(1 for m in history if m["role"] == "user") >= CHAT_SESSION_LIMIT:
-            st.warning("You've reached this session's question limit — refresh to start over.")
+            st.warning("You've reached this session's question limit. Refresh to start over.")
             return
         budget = _chat_budget()
         today = pd.Timestamp.now(tz="UTC").date().isoformat()
@@ -566,7 +566,7 @@ def render_chat(df: pd.DataFrame) -> None:
             )
         history.append({
             "role": "assistant",
-            "content": answer or "Sorry — the assistant is unavailable right now. Please try again later.",
+            "content": answer or "Sorry, the assistant is unavailable right now. Please try again later.",
         })
         st.rerun()
 
@@ -718,9 +718,9 @@ def render_transparency(df: pd.DataFrame) -> None:
     pct = round(100 * confirmed / total)
     st.markdown(
         f'<div class="transparency"><b>Transparency:</b> '
-        f'{confirmed}/{total} workshops ({pct}%) have a confirmed submission deadline — '
-        f'the rest show the parent conference’s deadline as a placeholder (marked '
-        f'“workshop TBD”). {located} have a location. Rebuilt daily; more fill in each day.</div>',
+        f'{confirmed}/{total} workshops ({pct}%) have a confirmed submission deadline. '
+        f'The rest show the parent conference\'s deadline as a placeholder (marked '
+        f'"workshop TBD"). {located} have a location. Rebuilt daily; more fill in each day.</div>',
         unsafe_allow_html=True,
     )
 
@@ -829,12 +829,12 @@ def render_header(data: dict, df: pd.DataFrame) -> None:
             'tiers that rate-limit, so the data fills in gradually. Always verify a deadline on the '
             'linked source before submitting.'
             '<br><br>'
-            '<strong>Want to help?</strong> Any way is welcome — '
+            '<strong>Want to help?</strong> Any way is welcome: '
             '<a class="open" href="https://github.com/krimler/workshop-tracker" target="_blank" rel="noopener">code on GitHub</a>, '
             'LLM credits (Claude tokens or Groq/OpenRouter quota) so more deadlines fill in each '
-            'day, a correction, a missing venue, or just an email to say it’s useful. Even a hello '
+            "day, a correction, a missing venue, or just an email to say it's useful. Even a hello "
             'helps me keep this going.'
-            '<div class="about-links">Email <strong>yavan [at] outlook [dot] com</strong> — '
+            '<div class="about-links">Email <strong>yavan [at] outlook [dot] com</strong> '
             'to add a venue, contribute, support, or just say hi.</div>'
             '</div>',
             unsafe_allow_html=True,
