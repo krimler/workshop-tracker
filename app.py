@@ -34,7 +34,7 @@ SHARE_TEXT = quote("Workshop GPT: every ML/CS workshop with its deadline, in one
 # Visitor analytics (GoatCounter — free, cookie-less). Set to your subdomain
 # (e.g. "workshop-gpt" for workshop-gpt.goatcounter.com) or the GOATCOUNTER_CODE
 # env/secret to enable. Empty = disabled.
-GOATCOUNTER_CODE = ""
+GOATCOUNTER_CODE = "li69nux"
 
 CHAT_SESSION_LIMIT = 15      # messages per browser session
 CHAT_DAILY_LIMIT = 500       # total LLM chat calls/day across all users (free-tier guard)
