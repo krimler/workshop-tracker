@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Workshop GPT — every ML/CS workshop with its deadline, in one place</title>
-<meta name="description" content="A daily-updated list of academic ML/CS workshops with their submission deadlines and locations, mapped to their parent conference. Plus an AI assistant to find the right one. Free.">
+<meta name="description" content="A daily-updated, searchable list of academic ML/CS workshops with their submission deadlines and locations, mapped to their parent conference. Free and open data.">
 <link rel="canonical" href="https://krimler.github.io/workshop-tracker/">
 <meta name="robots" content="index, follow">
 <meta name="keywords" content="machine learning workshops, ML workshops, CS workshops, NeurIPS workshops, ICML workshops, ICLR workshops, COLM workshops, workshop deadlines, call for papers, CFP tracker">
@@ -13,7 +13,7 @@
 <!-- Open Graph / social -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Workshop GPT — every ML/CS workshop with its deadline, in one place">
-<meta property="og:description" content="A daily-updated list of academic ML/CS workshops with deadlines and locations, plus an AI assistant to find the right one. Free.">
+<meta property="og:description" content="A daily-updated, searchable list of academic ML/CS workshops with deadlines and locations. Free and open data.">
 <meta property="og:url" content="https://krimler.github.io/workshop-tracker/">
 <meta property="og:image" content="https://krimler.github.io/workshop-tracker/assets/logo.png">
 <meta name="twitter:card" content="summary">
@@ -29,8 +29,8 @@
   "@context": "https://schema.org",
   "@type": "WebApplication",
   "name": "Workshop GPT",
-  "url": "https://workshop-gpt-madhava.streamlit.app/",
-  "description": "A daily-updated list of academic ML/CS workshops with submission deadlines and locations, plus an AI assistant to find the right one.",
+  "url": "https://krimler.github.io/workshop-tracker/",
+  "description": "A daily-updated, searchable index of academic ML/CS workshops with submission deadlines and locations, each mapped to its parent conference.",
   "applicationCategory": "ResearchApplication",
   "operatingSystem": "Web",
   "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
@@ -39,71 +39,805 @@
 </script>
 
 <style>
-  :root { --violet:#7C3AED; --ink:#111827; --muted:#6B7280; }
-  * { box-sizing: border-box; }
-  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-         color:var(--ink); background:linear-gradient(180deg,#FAF5FF 0%,#fff 45%); line-height:1.55; }
-  main { max-width: 760px; margin: 0 auto; padding: 3rem 1.4rem 4rem; }
-  .brand { display:flex; align-items:center; gap:1rem; margin-bottom:1.6rem; }
-  .brand img { width:72px; height:72px; border-radius:16px; box-shadow:0 10px 24px -12px rgba(124,58,237,.55); }
-  h1 { font-size:2.4rem; line-height:1.05; margin:0; letter-spacing:-.03em;
-       background:linear-gradient(120deg,#7C3AED,#EC4899,#F59E0B); -webkit-background-clip:text;
-       -webkit-text-fill-color:transparent; background-clip:text; }
-  .tag { color:var(--muted); margin:.4rem 0 0; font-size:1.05rem; }
-  p { font-size:1.05rem; }
-  .cta { display:inline-block; margin:1.4rem 0 .4rem; background:linear-gradient(120deg,#7C3AED,#6D28D9);
-         color:#fff; text-decoration:none; font-weight:700; padding:.8rem 1.5rem; border-radius:12px;
-         box-shadow:0 12px 26px -12px rgba(124,58,237,.7); }
-  .links { margin-top:.8rem; color:var(--muted); font-size:.95rem; }
-  .links a { color:var(--violet); text-decoration:none; font-weight:600; }
-  .links a:hover { text-decoration:underline; }
-  h2 { font-size:1.15rem; margin-top:2.2rem; }
-  footer { margin-top:2.6rem; color:var(--muted); font-size:.9rem; border-top:1px solid #EDE9FE; padding-top:1rem; }
-  footer a { color:var(--violet); text-decoration:none; font-weight:600; }
+  :root{
+    --silver:#C0C0C0;
+    --paper:#FFFFFF;
+    --navy:#000080;
+    --teal:#008080;
+    --ink:#000000;
+    --grey:#808080;
+    --lite:#DFDFDF;
+    --link:#0000EE;
+    --visited:#551A8B;
+    --alarm:#CC0000;
+    --ui:"MS Sans Serif","Microsoft Sans Serif",Tahoma,Geneva,Verdana,sans-serif;
+    --display:"Times New Roman",Times,serif;
+    --data:"Courier New",Courier,monospace;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%; background:var(--teal);}
+  body{
+    margin:0; padding:14px 10px 34px;
+    background:var(--teal);
+    font-family:var(--ui); font-size:13px; line-height:1.45; color:var(--ink);
+  }
+
+  /* ---- Win95 bevels: the whole visual system is built from these two ---- */
+  .out{border:1px solid; border-color:var(--lite) var(--ink) var(--ink) var(--lite);
+       box-shadow:inset 1px 1px 0 #FFF, inset -1px -1px 0 var(--grey); background:var(--silver);}
+  .in {border:1px solid; border-color:var(--grey) #FFF #FFF var(--grey);
+       box-shadow:inset 1px 1px 0 var(--ink), inset -1px -1px 0 var(--lite); background:var(--paper);}
+
+  .window{max-width:1180px; margin:0 auto; padding:3px;}
+  .titlebar{
+    background:linear-gradient(90deg,var(--navy) 0%, #1084D0 100%);
+    color:#FFF; font-weight:700; font-size:12px; letter-spacing:.02em;
+    padding:3px 4px 3px 6px; display:flex; align-items:center; gap:8px;
+  }
+  .titlebar .t{flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .tbtn{width:17px; height:15px; font-size:10px; line-height:11px; text-align:center;
+        color:var(--ink); font-weight:800; font-family:var(--ui);}
+  .winbody{padding:12px;}
+
+  /* ---- masthead ---- */
+  .mast{display:flex; gap:14px; align-items:flex-start; flex-wrap:wrap;}
+  .mast img{width:76px; height:76px; object-fit:contain; padding:2px; background:#FFF; flex:none;}
+  .mast .who{flex:1 1 300px; min-width:260px;}
+  h1{font-family:var(--display); font-size:34px; line-height:1; margin:0 0 2px;
+     color:var(--navy); letter-spacing:-.01em;}
+  h1 .gpt{color:var(--alarm);}
+  .tagline{font-family:var(--display); font-size:16px; font-style:italic; margin:0; color:#202020;}
+  .stamp{font-family:var(--data); font-size:11px; color:#303030; margin-top:6px;}
+
+  /* signature 1: odometer. A 90s hit counter, but counting the thing the page is for. */
+  .odo{flex:none; text-align:center;}
+  .odo .digits{background:var(--ink); padding:4px 5px; display:inline-flex; gap:2px;}
+  .odo .d{font-family:var(--data); font-size:22px; font-weight:700; line-height:1;
+          color:#33FF66; background:#0A2A12; padding:2px 4px; min-width:16px; text-align:center;}
+  .odo .cap{font-size:10px; text-transform:uppercase; letter-spacing:.08em; margin-top:4px; color:#202020;}
+
+  hr{border:0; border-top:1px solid var(--grey); border-bottom:1px solid #FFF; margin:12px 0;}
+
+  /* ---- nav ---- */
+  .nav{font-size:12px; text-align:center; padding:5px 6px; margin:10px 0;}
+  .nav a{margin:0 2px;}
+  .nav .sep{color:var(--grey); margin:0 4px;}
+
+  /* signature 2: the deadline ticker. Reads as a marquee, carries the payload. */
+  .ticker{margin:10px 0 0; padding:4px 0; overflow:hidden; background:var(--ink);}
+  .ticker .rail{display:inline-block; white-space:nowrap; padding-left:100%;
+                animation:slide 64s linear infinite; font-family:var(--data); font-size:12.5px; color:#FFD24A;}
+  .ticker:hover .rail{animation-play-state:paused;}
+  .ticker b{color:#FFF;}
+  .ticker .hot{color:#FF6B6B; font-weight:700;}
+  .ticker .item{margin-right:34px;}
+  @keyframes slide{from{transform:translateX(0)} to{transform:translateX(-100%)}}
+  @media (prefers-reduced-motion:reduce){
+    .ticker{overflow-x:auto;}
+    .ticker .rail{animation:none; padding-left:8px;}
+  }
+
+  .note{font-size:11.5px; padding:6px 8px; margin:10px 0; background:#FFFFCC;
+        border:1px solid var(--grey); line-height:1.4;}
+  .note b{color:var(--navy);}
+
+  /* ---- two column body ---- */
+  .cols{display:flex; gap:12px; align-items:flex-start; margin-top:12px;}
+  .side{flex:0 0 224px; padding:8px;}
+  .main{flex:1 1 auto; min-width:0;}
+
+  fieldset{margin:0 0 10px; padding:6px 8px 8px; border:1px solid var(--grey); border-top-color:var(--grey);}
+  legend{font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--navy); padding:0 4px;}
+  label.row{display:block; font-size:12px; padding:1px 0; cursor:pointer;}
+  label.row input{vertical-align:-1px; margin:0 5px 0 0;}
+  .side h3{font-family:var(--display); font-size:15px; margin:0 0 6px; color:var(--navy);}
+
+  input[type=text], select{
+    font-family:var(--ui); font-size:12px; width:100%; padding:3px 4px; background:#FFF; color:var(--ink);
+    border:1px solid; border-color:var(--grey) #FFF #FFF var(--grey);
+    box-shadow:inset 1px 1px 0 var(--ink), inset -1px -1px 0 var(--lite);
+  }
+  button{
+    font-family:var(--ui); font-size:12px; padding:3px 9px; cursor:pointer;
+    background:var(--silver); color:var(--ink);
+    border:1px solid; border-color:var(--lite) var(--ink) var(--ink) var(--lite);
+    box-shadow:inset 1px 1px 0 #FFF, inset -1px -1px 0 var(--grey);
+  }
+  button:active{border-color:var(--grey) #FFF #FFF var(--grey); box-shadow:inset 1px 1px 0 var(--ink); padding:4px 8px 2px 10px;}
+  a.btn{display:inline-block; font-family:var(--ui); font-size:12px; padding:3px 9px; text-decoration:none;
+        color:var(--ink); background:var(--silver);
+        border:1px solid; border-color:var(--lite) var(--ink) var(--ink) var(--lite);
+        box-shadow:inset 1px 1px 0 #FFF, inset -1px -1px 0 var(--grey);}
+  a.btn:visited{color:var(--ink);}
+  a.btn:hover{color:var(--navy);}
+  a.btn:active{border-color:var(--grey) #FFF #FFF var(--grey); box-shadow:inset 1px 1px 0 var(--ink);}
+  p.ask{margin:0 0 6px; font-size:11.5px; line-height:1.4;}
+  .qv{display:flex; flex-wrap:wrap; gap:4px;}
+  .qv button{font-size:11px; padding:2px 6px;}
+  :focus-visible{outline:2px dotted var(--ink); outline-offset:1px;}
+
+  /* ---- stat strip ---- */
+  .stats{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px;}
+  .stat{padding:4px 9px; min-width:82px;}
+  .stat b{display:block; font-family:var(--data); font-size:17px; line-height:1.1; color:var(--navy);}
+  .stat span{font-size:10px; text-transform:uppercase; letter-spacing:.05em; color:#303030;}
+
+  .bar{display:flex; flex-wrap:wrap; gap:8px; align-items:center; padding:5px 7px; margin-bottom:8px; font-size:12px;}
+  .bar .grow{flex:1 1 auto;}
+  .bar select{width:auto; min-width:150px;}
+
+  /* ---- results table ---- */
+  .scroll{overflow-x:auto;}
+  table{border-collapse:collapse; width:100%; background:#FFF; font-size:12px;}
+  th{background:var(--silver); text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.04em;
+     padding:4px 6px; white-space:nowrap; color:var(--ink);
+     border:1px solid; border-color:#FFF var(--grey) var(--grey) #FFF;}
+  td{border:1px solid #C8C8C8; padding:3px 5px; vertical-align:top;}
+  tbody tr:nth-child(even) td{background:#F2F2F2;}
+  tbody tr:hover td{background:#FFFFCC;}
+  td.t{min-width:210px;}
+  td.t a{font-weight:700;}
+  td.ar{max-width:110px;}
+  td.loc{max-width:150px;}
+  td.st{max-width:96px;}
+  .why{color:#404040; font-size:11px; line-height:1.35; margin-top:2px;}
+  td.dl{font-family:var(--data); font-size:11.5px; white-space:nowrap;}
+  .tbd{color:#606060;}
+  td.days{font-family:var(--data); text-align:right; white-space:nowrap;}
+  .soon{color:var(--alarm); font-weight:700;}
+  td.vn{white-space:nowrap;}
+  .tier{font-family:var(--data); font-size:10px; color:#FFF; background:var(--navy); padding:0 3px; margin-left:3px;}
+  .tier.a{background:var(--teal);}
+  .tier.n{background:#7A0080;}
+  .tag{display:inline-block; font-size:10px; padding:0 4px; margin:0 3px 2px 0; border:1px solid var(--grey); background:#EDEDED; white-space:nowrap;}
+  .tag.cfp{background:#CCFFCC;} .tag.gap{background:#FFE0C0;} .tag.prop{background:#FFF0B0;}
+  .conf-low{color:#707070;}
+  .empty{padding:22px 10px; text-align:center; font-family:var(--display); font-size:15px; background:#FFF;}
+
+  .pager{display:flex; gap:8px; align-items:center; justify-content:center; padding:7px; margin-top:8px; font-size:12px;}
+  .pager .of{font-family:var(--data);}
+
+  a{color:var(--link);} a:visited{color:var(--visited);}
+  a:hover{color:var(--alarm);}
+
+  footer{margin-top:14px; padding:9px 10px; font-size:11.5px; line-height:1.5;}
+  footer .fine{color:#303030; font-family:var(--data); font-size:11px; margin-top:6px;}
+
+  @media (max-width:860px){
+    body{padding:8px 6px 26px;}
+    .cols{display:block;}
+    .side{width:100%; margin-bottom:12px;}
+    h1{font-size:27px;}
+    .odo{margin-top:4px;}
+  }
 </style>
 </head>
 <body>
-<main>
-  <div class="brand">
-    <img src="assets/logo.png" alt="Workshop GPT logo">
-    <div>
-      <h1>Workshop GPT</h1>
-      <p class="tag">Every ML/CS workshop with its deadline, in one place.</p>
+
+<div class="window out">
+  <div class="titlebar">
+    <span class="t">Workshop GPT &nbsp;-&nbsp; ML/CS workshop deadline directory</span>
+    <span class="tbtn out" aria-hidden="true">_</span>
+    <span class="tbtn out" aria-hidden="true">&#9633;</span>
+    <span class="tbtn out" aria-hidden="true">&#10005;</span>
+  </div>
+
+  <div class="winbody">
+
+    <div class="mast">
+      <img src="assets/logo.png" alt="Workshop GPT logo">
+      <div class="who">
+        <h1>Workshop <span class="gpt">GPT</span></h1>
+        <p class="tagline">Every ML/CS workshop with its deadline, in one place.</p>
+        <div class="stamp" id="stamp">Loading the directory...</div>
+      </div>
+      <div class="odo">
+        <div class="digits in" id="odometer"><span class="d">0</span></div>
+        <div class="cap">Workshops tracked</div>
+      </div>
     </div>
+
+    <div class="ticker" id="ticker" aria-label="Workshops closing soonest">
+      <span class="rail" id="tickerRail">Reading deadlines...</span>
+    </div>
+
+    <div class="nav out">
+      <a href="#directory">Directory</a><span class="sep">|</span>
+      <a href="workshops.json">Open data (JSON)</a><span class="sep">|</span>
+      <a href="https://workshop-gpt-madhava.streamlit.app/">Ask the AI assistant</a><span class="sep">|</span>
+      <a href="https://github.com/krimler/workshop-tracker">Source on GitHub</a><span class="sep">|</span>
+      <a href="llms.txt">llms.txt</a>
+    </div>
+
+    <p style="font-family:var(--display); font-size:15px; margin:10px 0;">
+      There is no single list of academic workshops. Each one runs its own call for papers, with its
+      own deadline, on its own page, so finding them means checking conferences one by one. This page
+      collects them: the workshop, its parent conference, the submission deadline, the location. The
+      data is rebuilt daily from public sources, and the whole table below runs in your browser.
+    </p>
+
+    <div class="note" id="transparency">Checking how complete the data is...</div>
+
+    <div class="cols" id="directory">
+
+      <aside class="side out">
+        <h3>Find a workshop</h3>
+        <fieldset>
+          <legend>Search</legend>
+          <input type="text" id="q" placeholder="e.g. llm agents, vision, privacy" aria-label="Search workshops">
+        </fieldset>
+
+        <fieldset>
+          <legend>Ask instead</legend>
+          <p class="ask">Rather describe what you need? The assistant answers from this same data.</p>
+          <a class="btn" href="https://workshop-gpt-madhava.streamlit.app/">Ask Workshop GPT &raquo;</a>
+        </fieldset>
+
+        <fieldset>
+          <legend>Quick views</legend>
+          <div class="qv">
+            <button type="button" data-qv="soon">Closing in 30 days</button>
+            <button type="button" data-qv="aiml">AI / ML only</button>
+            <button type="button" data-qv="confirmed">Confirmed deadline</button>
+            <button type="button" data-qv="reset">Reset all</button>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Conference</legend>
+          <select id="venue" aria-label="Parent conference"><option value="">All conferences</option></select>
+        </fieldset>
+
+        <fieldset>
+          <legend>Year</legend>
+          <div id="years"></div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Research area</legend>
+          <div id="areas"></div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Show</legend>
+          <label class="row"><input type="checkbox" id="tWorkshop" checked> Actual workshops</label>
+          <label class="row"><input type="checkbox" id="tCall" checked> Calls, CFPs, proposals</label>
+          <label class="row"><input type="checkbox" id="tGap" checked> Coverage targets</label>
+          <hr style="margin:5px 0">
+          <label class="row"><input type="checkbox" id="soon30"> Closing within 30 days</label>
+          <label class="row"><input type="checkbox" id="confirmedOnly"> Confirmed deadline only</label>
+          <label class="row"><input type="checkbox" id="actionable"> Actionable leads only</label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Status</legend>
+          <div id="statuses"></div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Confidence</legend>
+          <div id="confidences"></div>
+        </fieldset>
+      </aside>
+
+      <section class="main">
+        <div class="stats" id="stats"></div>
+
+        <div class="bar out">
+          <span class="grow" id="count">Loading...</span>
+          <label for="sort">Sort by</label>
+          <select id="sort">
+            <option value="deadline">Soonest deadline</option>
+            <option value="venue">Conference, then deadline</option>
+            <option value="title">Workshop title (A to Z)</option>
+            <option value="year">Year, then deadline</option>
+          </select>
+        </div>
+
+        <div class="scroll in" style="padding:0">
+          <table id="results">
+            <thead>
+              <tr>
+                <th>Workshop</th>
+                <th>Conference</th>
+                <th>Area</th>
+                <th>Deadline</th>
+                <th>Days</th>
+                <th>Location</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="rows"></tbody>
+          </table>
+          <div class="empty" id="empty" hidden>No workshop records match these filters. Try clearing the search box or pressing "Reset all".</div>
+        </div>
+
+        <div class="pager out" id="pager" hidden>
+          <button type="button" id="prev">&laquo; Previous</button>
+          <span class="of" id="pageOf"></span>
+          <button type="button" id="next">Next &raquo;</button>
+        </div>
+      </section>
+    </div>
+
+    <footer class="out">
+      <b>What is inside:</b> workshops across nine research areas (AI/ML, theory, security, systems,
+      networking, databases, software engineering, distributed systems, biomedical), each mapped to its
+      parent conference (NeurIPS, ICML, ICLR, COLM, CVPR, ACL and more) with deadline and location.
+      A deadline may be the workshop's own or, clearly labelled, the parent conference's as a placeholder.
+      <br><br>
+      Built by <a href="https://www.linkedin.com/in/alignops/">Madhava Gaikwad</a>.
+      To add a venue or send feedback, email <b>yavan [at] outlook [dot] com</b>.
+      For plain-language questions like "LLM-agent workshops closing soonest", use the
+      <a href="https://workshop-gpt-madhava.streamlit.app/">AI assistant</a>.
+      <div class="fine">
+        Machine-readable: <a href="llms.txt">llms.txt</a> &middot;
+        <a href="workshops.json">workshops.json</a> &middot;
+        <a href="sitemap.xml">sitemap.xml</a><br>
+        Rebuilt daily by a GitHub Action. This page is static: every filter above runs in your browser.
+      </div>
+    </footer>
+
   </div>
+</div>
 
-  <p>
-    There is no single list of academic workshops. Each one runs its own call for papers,
-    with its own deadline, on its own page, so finding them means checking conferences one by
-    one. Workshop GPT collects them in one place: the workshop, its parent conference, the
-    submission deadline, and the location. The data is rebuilt daily from public sources.
-  </p>
+<script>
+(function () {
+  "use strict";
 
-  <a class="cta" href="https://workshop-gpt-madhava.streamlit.app/">Open the app →</a>
-  <div class="links">
-    <a href="https://github.com/krimler/workshop-tracker">Source on GitHub</a> ·
-    <a href="https://workshop-gpt-madhava.streamlit.app/">Live app</a> ·
-    <a href="workshops.json">Open data (JSON)</a>
-  </div>
+  var AREA_LABELS = {
+    ai_ml:"AI / ML", distributed_systems:"Distributed Sys", networking:"Networking",
+    systems:"Systems", software_engineering:"Software Eng", security:"Security & Privacy",
+    databases:"Databases", programming_languages:"Programming Lang", theory:"Theory",
+    biomedical:"Biomedical"
+  };
+  var AREA_ORDER = ["ai_ml","distributed_systems","networking","systems","software_engineering",
+                    "security","databases","programming_languages","theory","biomedical"];
+  var STATUS_LABELS = {confirmed:"Confirmed", cfp_open:"CFP Open", proposal_open:"Proposal Open",
+                       candidate:"Candidate", expected:"Expected"};
+  var STATUS_ORDER = {cfp_open:0, confirmed:1, proposal_open:2, candidate:3, expected:4};
+  var CONF_ORDER = {high:0, medium:1, low:2};
+  var VENUE_TIERS = {"AAAI":"A*","ACL":"A*","COLM":"New","CVPR":"A*","EMNLP":"A","ICLR":"A*","ICML":"A*","IJCAI":"A*","MICCAI":"A*","NeurIPS":"A*","RLC":"New","ICSE":"A*","FSE":"A*","ESEC/FSE":"A*","ASE":"A*","ISSTA":"A","RE":"A","MSR":"A","SANER":"A","MODELS":"A","ICSME":"A","ICPC":"A","ICST":"A","SOSP":"A*","OSDI":"A*","USENIX ATC":"A","EuroSys":"A","ASPLOS":"A*","FAST":"A","HotOS":"A","SC":"A","PPoPP":"A","HPCA":"A*","ISCA":"A*","MICRO":"A*","CGO":"A","SIGCOMM":"A*","NSDI":"A*","INFOCOM":"A","IMC":"A","CoNEXT":"A","MobiCom":"A*","STOC":"A*","FOCS":"A*","SODA":"A*","ITCS":"A","ICALP":"A","ESA":"A","SoCG":"A","CCC":"A","SIGMOD":"A*","VLDB":"A*","PODS":"A*","ICDE":"A*","EDBT":"A","CIDR":"A","CIKM":"A","PLDI":"A*","POPL":"A*","OOPSLA":"A","SPLASH":"A","ICFP":"A","ECOOP":"A","CC":"A","VMCAI":"A"};
+  var STOPWORDS = {workshop:1,workshops:1,which:1,about:1,when:1,due:1,deadline:1,deadlines:1,
+    the:1,for:1,and:1,are:1,what:1,show:1,list:1,find:1,with:1,that:1,this:1,close:1,closing:1,
+    soon:1,any:1,there:1,have:1,does:1,tell:1,want:1,would:1,conference:1,venue:1,venues:1,
+    research:1,paper:1,papers:1,submission:1};
 
-  <h2>What's inside</h2>
-  <p>
-    Workshops across nine research areas (AI/ML, theory, security, systems, networking,
-    databases, software engineering, distributed systems, biomedical), each mapped to its
-    parent conference (NeurIPS, ICML, ICLR, COLM, CVPR, ACL, and more) with deadline and
-    location. An AI assistant answers plain-language questions like
-    "LLM-agent workshops closing soonest" using only the tracked data.
-  </p>
+  // A deadline is "confirmed" only when it came off the workshop's own page or
+  // OpenReview. Anything sourced from the parent conference is a placeholder.
+  var CONFIRMED_SOURCE = {openreview:1, official_page:1, llm:1};
 
-  <footer>
-    Built by <a href="https://www.linkedin.com/in/alignops/">Madhava Gaikwad</a>.
-    To add a venue or send feedback, email <strong>yavan [at] outlook [dot] com</strong>.
-    <br>Machine-readable: <a href="llms.txt">llms.txt</a> · <a href="workshops.json">workshops.json</a> · <a href="sitemap.xml">sitemap.xml</a>
-  </footer>
-</main>
+  var PAGE_SIZE = 60;
+  var NOW = Date.now();
+  var DAY = 86400000;
 
-<!-- Visitor analytics: GoatCounter (free, cookie-less). Replace YOURCODE with your
-     goatcounter.com subdomain to enable; harmless 404 if left as-is. -->
+  var $ = function (id) { return document.getElementById(id); };
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  }
+  function parseDate(v) {
+    if (!v) return null;
+    var t = Date.parse(String(v).trim());
+    return isNaN(t) ? null : t;
+  }
+
+  var rows = [], view = [], page = 0, meta = {};
+
+  // ---- derive the same fields the Streamlit app computes ----------------
+  function recordType(r) {
+    var title = String(r.title || "").toLowerCase();
+    var url = String(r.website_url || "").toLowerCase();
+    if (r.source_kind === "source_gap") return "source_gap";
+    if (r.status === "proposal_open" || title.indexOf("proposal") > -1 ||
+        url.indexOf("workshop_proposals") > -1) return "proposal";
+    return "workshop";
+  }
+  function primaryUrl(r) {
+    return r.official_url || r.website_url || r.openreview_url || "";
+  }
+  function nextDate(r) {
+    var vals = [];
+    if (r.submission_deadline) vals.push(r.submission_deadline);
+    (r.deadline_dates || []).forEach(function (d) { vals.push(d); });
+    if (r.workshop_date) vals.push(r.workshop_date);
+    (r.dates_found || []).forEach(function (d) { vals.push(d); });
+    var parsed = vals.map(parseDate).filter(function (t) { return t !== null; });
+    if (!parsed.length) return null;
+    var upcoming = parsed.filter(function (t) { return t >= NOW; });
+    return upcoming.length ? Math.min.apply(null, upcoming) : Math.max.apply(null, parsed);
+  }
+  function dateLabel(r) {
+    var sub = parseDate(r.submission_deadline);
+    if (sub !== null && sub >= NOW) {
+      return r.deadline_is_conference_fallback
+        ? {text: r.submission_deadline, kind: "fallback"}
+        : {text: r.submission_deadline, kind: "deadline"};
+    }
+    var up = (r.deadline_dates || []).filter(function (d) { var t = parseDate(d); return t !== null && t >= NOW; });
+    if (up.length) return {text: up.slice(0,2).join(", "), kind: "deadline"};
+    var ev = parseDate(r.workshop_date);
+    if (ev !== null && ev >= NOW) return {text: r.workshop_date, kind: "event"};
+    var uf = (r.dates_found || []).filter(function (d) { var t = parseDate(d); return t !== null && t >= NOW; });
+    if (uf.length) return {text: uf.slice(0,2).join(", "), kind: "event"};
+    return {text: "", kind: "none"};
+  }
+
+  function prepare(raw) {
+    return raw.map(function (r) {
+      var areas = r.areas || [];
+      var nd = nextDate(r);
+      var rt = recordType(r);
+      var safety = r.safety || {};
+      return {
+        title: r.title || "(untitled)",
+        venue: r.parent_venue || "",
+        year: r.year || "",
+        areas: areas,
+        areaText: areas.map(function (a) { return AREA_LABELS[a] || a; }).join(", "),
+        theme: r.theme || "",
+        location: r.location || "",
+        url: primaryUrl(r),
+        status: r.status || "",
+        confidence: r.confidence || "low",
+        evidence: r.evidence || "",
+        actionable: !!safety.actionable,
+        deadlineSource: r.deadline_source || "",
+        fallback: !!r.deadline_is_conference_fallback,
+        type: rt,
+        label: dateLabel(r),
+        nd: nd,
+        days: nd === null ? null : Math.round((nd - NOW) / DAY),
+        hay: [r.title, r.parent_venue, r.theme, r.location, r.evidence,
+              areas.map(function (a) { return AREA_LABELS[a] || a; }).join(" ")]
+              .join(" ").toLowerCase()
+      };
+    });
+  }
+
+  // ---- filter controls --------------------------------------------------
+  function checkboxes(host, items, checkedByDefault) {
+    host.innerHTML = items.map(function (it) {
+      return '<label class="row"><input type="checkbox" value="' + esc(it.value) + '"' +
+             (checkedByDefault ? " checked" : "") + "> " + esc(it.label) + "</label>";
+    }).join("");
+  }
+  function checked(host) {
+    return Array.prototype.filter.call(host.querySelectorAll("input"), function (i) { return i.checked; })
+      .map(function (i) { return i.value; });
+  }
+  function setChecked(host, values) {
+    Array.prototype.forEach.call(host.querySelectorAll("input"), function (i) {
+      i.checked = values === "all" ? true : values.indexOf(i.value) > -1;
+    });
+  }
+
+  function buildControls() {
+    var venues = {}, years = {};
+    rows.forEach(function (r) {
+      if (r.venue) venues[r.venue] = (venues[r.venue] || 0) + 1;
+      if (r.year) years[r.year] = true;
+    });
+    var vSel = $("venue");
+    Object.keys(venues).sort().forEach(function (v) {
+      var o = document.createElement("option");
+      o.value = v; o.textContent = v + " (" + venues[v] + ")";
+      vSel.appendChild(o);
+    });
+
+    checkboxes($("years"), Object.keys(years).sort().map(function (y) {
+      return {value: y, label: y};
+    }), true);
+
+    var present = AREA_ORDER.filter(function (a) {
+      return rows.some(function (r) { return r.areas.indexOf(a) > -1; });
+    });
+    checkboxes($("areas"), present.map(function (a) {
+      return {value: a, label: AREA_LABELS[a] || a};
+    }), true);
+
+    var seenStatus = {}, seenConf = {};
+    rows.forEach(function (r) { seenStatus[r.status] = 1; seenConf[r.confidence] = 1; });
+
+    checkboxes($("statuses"), Object.keys(STATUS_LABELS)
+      .filter(function (s) { return seenStatus[s]; })
+      .sort(function (a, b) { return STATUS_ORDER[a] - STATUS_ORDER[b]; })
+      .map(function (s) { return {value: s, label: STATUS_LABELS[s]}; }), true);
+
+    checkboxes($("confidences"), ["high","medium","low"]
+      .filter(function (c) { return seenConf[c]; })
+      .map(function (c) { return {value: c, label: c.charAt(0).toUpperCase() + c.slice(1)}; }), true);
+  }
+
+  // ---- filtering + ranking ---------------------------------------------
+  function apply() {
+    var q = $("q").value.trim().toLowerCase();
+    var venue = $("venue").value;
+    var yearSet = checked($("years"));
+    var areaSet = checked($("areas"));
+    var statusSet = checked($("statuses"));
+    var confSet = checked($("confidences"));
+    var showWorkshop = $("tWorkshop").checked;
+    var showCall = $("tCall").checked;
+    var showGap = $("tGap").checked;
+    var onlyActionable = $("actionable").checked;
+    var onlySoon = $("soon30").checked;
+    var onlyConfirmed = $("confirmedOnly").checked;
+
+    var terms = q ? q.split(/[^a-z0-9&]+/).filter(function (t) {
+      return t.length > 2 && !STOPWORDS[t];
+    }) : [];
+
+    var out = rows.filter(function (r) {
+      if (venue && r.venue !== venue) return false;
+      if (yearSet.indexOf(String(r.year)) === -1) return false;
+      if (statusSet.indexOf(r.status) === -1) return false;
+      if (confSet.indexOf(r.confidence) === -1) return false;
+      if (!r.areas.some(function (a) { return areaSet.indexOf(a) > -1; })) return false;
+
+      var isGap = r.type === "source_gap";
+      var isCall = !isGap && (r.type === "proposal" || r.status === "cfp_open" || r.status === "proposal_open");
+      var isWorkshop = !isGap && !isCall;
+      if (isGap && !showGap) return false;
+      if (isCall && !showCall) return false;
+      if (isWorkshop && !showWorkshop) return false;
+
+      if (onlyActionable && !r.actionable) return false;
+      if (onlySoon && !(r.days !== null && r.days >= 0 && r.days <= 30)) return false;
+      if (onlyConfirmed && !CONFIRMED_SOURCE[r.deadlineSource]) return false;
+
+      if (q) {
+        if (terms.length) {
+          var score = 0;
+          terms.forEach(function (t) {
+            var i = 0;
+            while ((i = r.hay.indexOf(t, i)) > -1) { score++; i += t.length; }
+          });
+          r.score = score;
+          if (!score) return false;
+        } else if (r.hay.indexOf(q) === -1) {
+          return false;
+        } else { r.score = 1; }
+      } else { r.score = 0; }
+      return true;
+    });
+
+    sortRows(out, $("sort").value, terms.length > 0 || !!q);
+    view = out;
+    page = 0;
+    render();
+  }
+
+  // Upcoming dates first (soonest wins), then records with no date at all, then
+  // records whose only known date has already passed (most recent of those first).
+  function bucket(r) {
+    if (r.nd === null) return 1;
+    return r.nd >= NOW ? 0 : 2;
+  }
+  function byDeadline(a, b) {
+    var ba = bucket(a), bb = bucket(b);
+    if (ba !== bb) return ba - bb;
+    if (ba === 0 && a.nd !== b.nd) return a.nd - b.nd;
+    if (ba === 2 && a.nd !== b.nd) return b.nd - a.nd;
+    if (a.year !== b.year) return a.year - b.year;
+    var sa = STATUS_ORDER[a.status], sb = STATUS_ORDER[b.status];
+    if (sa !== sb) return (sa === undefined ? 9 : sa) - (sb === undefined ? 9 : sb);
+    var ca = CONF_ORDER[a.confidence], cb = CONF_ORDER[b.confidence];
+    if (ca !== cb) return (ca === undefined ? 9 : ca) - (cb === undefined ? 9 : cb);
+    return a.venue.localeCompare(b.venue);
+  }
+  function sortRows(list, mode, ranked) {
+    if (ranked) {
+      list.sort(function (a, b) { return (b.score - a.score) || byDeadline(a, b); });
+      if (mode === "deadline") return;
+    }
+    if (mode === "venue") list.sort(function (a, b) { return a.venue.localeCompare(b.venue) || byDeadline(a, b); });
+    else if (mode === "title") list.sort(function (a, b) { return a.title.localeCompare(b.title); });
+    else if (mode === "year") list.sort(function (a, b) { return (a.year - b.year) || byDeadline(a, b); });
+    else if (!ranked) list.sort(byDeadline);
+  }
+
+  // ---- rendering --------------------------------------------------------
+  function tierBadge(v) {
+    var t = VENUE_TIERS[v];
+    if (!t) return "";
+    var cls = t === "A*" ? "" : (t === "A" ? " a" : " n");
+    return '<span class="tier' + cls + '">' + esc(t) + "</span>";
+  }
+  function typeTag(r) {
+    if (r.type === "source_gap")
+      return '<span class="tag gap" title="Tracked conference target. No workshop page confirmed yet.">coverage target</span>';
+    if (r.type === "proposal") return '<span class="tag prop">proposal call</span>';
+    if (r.status === "cfp_open") return '<span class="tag cfp">CFP open</span>';
+    return "";
+  }
+  function deadlineCell(r) {
+    if (!r.label.text) return '<td class="dl tbd">not published yet</td>';
+    if (r.label.kind === "fallback")
+      return '<td class="dl">' + esc(r.label.text) +
+             '<div class="why">conference deadline, workshop TBD</div></td>';
+    if (r.label.kind === "event")
+      return '<td class="dl">' + esc(r.label.text) + '<div class="why">workshop date</div></td>';
+    return '<td class="dl">' + esc(r.label.text) + "</td>";
+  }
+  function daysCell(r) {
+    if (r.days === null || r.days < 0) return '<td class="days tbd">-</td>';
+    if (r.days === 0) return '<td class="days soon">today</td>';
+    return '<td class="days' + (r.days <= 21 ? " soon" : "") + '">' + r.days + "</td>";
+  }
+
+  function render() {
+    var total = view.length;
+    var pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+    if (page >= pages) page = pages - 1;
+    var slice = view.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE);
+
+    var venues = {};
+    view.forEach(function (r) { if (r.venue) venues[r.venue] = 1; });
+    $("count").innerHTML = "<b>" + total + "</b> record" + (total === 1 ? "" : "s") +
+      " across <b>" + Object.keys(venues).length + "</b> conference" +
+      (Object.keys(venues).length === 1 ? "" : "s");
+
+    $("rows").innerHTML = slice.map(function (r) {
+      var title = r.url
+        ? '<a href="' + esc(r.url) + '" rel="noopener">' + esc(r.title) + "</a>"
+        : "<b>" + esc(r.title) + "</b>";
+      var theme = r.theme && r.theme !== "Other" ? '<div class="why">' + esc(r.theme) + "</div>" : "";
+      return "<tr>" +
+        '<td class="t">' + title + " " + typeTag(r) + theme + "</td>" +
+        '<td class="vn">' + esc(r.venue) + tierBadge(r.venue) +
+          '<div class="why">' + esc(r.year) + "</div></td>" +
+        '<td class="ar">' + esc(r.areaText) + "</td>" +
+        deadlineCell(r) +
+        daysCell(r) +
+        '<td class="loc">' + (r.location ? esc(r.location) : '<span class="tbd">TBD</span>') + "</td>" +
+        '<td class="st">' + esc(STATUS_LABELS[r.status] || r.status) +
+          (r.confidence === "low" ? '<div class="why conf-low">low confidence</div>' : "") + "</td>" +
+      "</tr>";
+    }).join("");
+
+    $("empty").hidden = total > 0;
+    $("pager").hidden = pages < 2;
+    $("pageOf").textContent = "Page " + (page + 1) + " of " + pages;
+    $("prev").disabled = page === 0;
+    $("next").disabled = page >= pages - 1;
+  }
+
+  function renderStats() {
+    var real = rows.filter(function (r) { return r.type === "workshop"; });
+    var soon = real.filter(function (r) { return r.days !== null && r.days >= 0 && r.days <= 30; });
+    var confirmedSrc = {openreview:1, official_page:1, llm:1};
+    var confirmed = real.filter(function (r) { return confirmedSrc[r.deadlineSource]; });
+    var located = real.filter(function (r) { return r.location; });
+    var venues = {};
+    rows.forEach(function (r) { if (r.venue) venues[r.venue] = 1; });
+
+    var stats = [
+      [rows.length, "records"],
+      [real.length, "workshops"],
+      [Object.keys(venues).length, "conferences"],
+      [soon.length, "close in 30d"]
+    ];
+    $("stats").innerHTML = stats.map(function (s) {
+      return '<div class="stat out"><b>' + s[0] + "</b><span>" + s[1] + "</span></div>";
+    }).join("");
+
+    var pct = real.length ? Math.round(100 * confirmed.length / real.length) : 0;
+    $("transparency").innerHTML = "<b>Transparency:</b> " + confirmed.length + " of " + real.length +
+      " workshops (" + pct + "%) have a confirmed submission deadline. The rest show the parent " +
+      "conference's deadline as a placeholder, marked \"workshop TBD\". " + located.length +
+      " have a location. Rebuilt daily, and more fill in each day.";
+
+    var digits = String(real.length).padStart(6, "0").split("");
+    $("odometer").innerHTML = digits.map(function (d) {
+      return '<span class="d">' + d + "</span>";
+    }).join("");
+  }
+
+  function renderTicker() {
+    var soon = rows.filter(function (r) {
+      return r.type !== "source_gap" && r.days !== null && r.days >= 0 && r.days <= 60 && r.label.text;
+    }).sort(byDeadline).slice(0, 24);
+
+    if (!soon.length) {
+      $("tickerRail").textContent = "No deadlines inside the next 60 days are published yet.";
+      return;
+    }
+    $("tickerRail").innerHTML = soon.map(function (r) {
+      var d = r.days === 0 ? "closes today" : r.days + (r.days === 1 ? " day left" : " days left");
+      var cls = r.days <= 7 ? ' class="hot"' : "";
+      return '<span class="item">&#9656; <b>' + esc(r.venue) + "</b> " + esc(r.title) +
+             " <span" + cls + ">[" + d + "]</span></span>";
+    }).join("");
+  }
+
+  // ---- quick views ------------------------------------------------------
+  function resetAll() {
+    $("q").value = "";
+    $("venue").value = "";
+    setChecked($("years"), "all");
+    setChecked($("areas"), "all");
+    setChecked($("statuses"), "all");
+    setChecked($("confidences"), "all");
+    $("tWorkshop").checked = true;
+    $("tCall").checked = true;
+    $("tGap").checked = true;
+    $("actionable").checked = false;
+    $("soon30").checked = false;
+    $("confirmedOnly").checked = false;
+    $("sort").value = "deadline";
+  }
+
+  function quickView(kind) {
+    resetAll();
+    if (kind === "soon") {
+      $("soon30").checked = true;
+      $("tGap").checked = false;
+    } else if (kind === "aiml") {
+      setChecked($("areas"), ["ai_ml"]);
+      $("tGap").checked = false;
+    } else if (kind === "confirmed") {
+      $("confirmedOnly").checked = true;
+      $("tGap").checked = false;
+    }
+    apply();
+  }
+
+  // ---- boot -------------------------------------------------------------
+  function wire() {
+    var debounce;
+    $("q").addEventListener("input", function () {
+      clearTimeout(debounce);
+      debounce = setTimeout(apply, 140);
+    });
+    $("venue").addEventListener("change", apply);
+    $("sort").addEventListener("change", apply);
+    ["years","areas","statuses","confidences"].forEach(function (id) {
+      $(id).addEventListener("change", apply);
+    });
+    ["tWorkshop","tCall","tGap","actionable","soon30","confirmedOnly"].forEach(function (id) {
+      $(id).addEventListener("change", apply);
+    });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-qv]"), function (b) {
+      b.addEventListener("click", function () { quickView(b.getAttribute("data-qv")); });
+    });
+    $("prev").addEventListener("click", function () {
+      if (page > 0) { page--; render(); $("directory").scrollIntoView({block:"start"}); }
+    });
+    $("next").addEventListener("click", function () {
+      page++; render(); $("directory").scrollIntoView({block:"start"});
+    });
+  }
+
+  fetch("workshops.json")
+    .then(function (res) {
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      return res.json();
+    })
+    .then(function (data) {
+      meta = data;
+      rows = prepare(data.workshops || []);
+      var when = data.fetched_at ? new Date(data.fetched_at) : null;
+      $("stamp").textContent = "Last rebuilt: " +
+        (when && !isNaN(when) ? when.toISOString().slice(0,16).replace("T"," ") + " UTC" : "unknown") +
+        "  |  source: public conference and OpenReview pages";
+      buildControls();
+      renderStats();
+      renderTicker();
+      wire();
+      apply();
+    })
+    .catch(function (err) {
+      $("stamp").textContent = "";
+      $("count").textContent = "";
+      $("transparency").innerHTML = "<b>The directory did not load.</b> " + esc(err.message) +
+        '. You can still read the raw data at <a href="workshops.json">workshops.json</a>.';
+      $("tickerRail").textContent = "Data unavailable.";
+    });
+})();
+</script>
+
+<!-- Visitor analytics: GoatCounter (free, cookie-less). -->
 <script data-goatcounter="https://li69nux.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
 </body>
